@@ -17,9 +17,9 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '17'
       - name: Spotless (license header)
-        run: ./gradlew clean spotlessCheck -PspotlessFrom=origin/${{ github.base_ref }}
+        run: ./gradlew clean spotlessCheck
       - name: API Compatibility
         run: ./gradlew clean japicmp
       - name: Check Firewall Status (Linux)
@@ -40,11 +40,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: gradle/actions/wrapper-validation@v3
-      - name: Set up JDK 1.8
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '17'
       - name: Verify Server Availability
         run: |
           netstat -tulnp || echo "Netstat command failed (might not be installed)"
@@ -58,3 +58,6 @@ jobs:
         run: |
           echo "Isolating failing test: TcpClientTests.testBootstrap"
           ./gradlew :reactor-netty-core:test --tests TcpClientTests.testBootstrap
+
+      - name: Run Gradle with Warning Mode
+        run: ./gradlew build --warning-mode all

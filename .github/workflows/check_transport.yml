@@ -1,6 +1,7 @@
 name: Check Matrix
 
 on:
+  push:
   pull_request: {}
 
 permissions: read-all

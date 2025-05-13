@@ -18,8 +18,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Spotless (license header)
-        run: ./gradlew clean spotlessCheck
+      - name: Apply Spotless Fixes
+        run: ./gradlew spotlessApply
+      - name: Spotless Check (license header)
+        run: ./gradlew spotlessCheck
       - name: API Compatibility
         run: ./gradlew clean japicmp
       - name: Check Firewall Status (Linux)
@@ -59,5 +61,5 @@ jobs:
           echo "Isolating failing test: TcpClientTests.testBootstrap"
           ./gradlew :reactor-netty-core:test --tests TcpClientTests.testBootstrap
 
-      - name: Run Gradle with Warning Mode
-        run: ./gradlew build --warning-mode all
+      - name: Run Gradle with Warning Mode and Stacktrace
+        run: ./gradlew build --warning-mode all --stacktrace
